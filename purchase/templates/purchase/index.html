@@ -1,0 +1,73 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+    <head data-status = {{status}}>
+        <title>StripeStore</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <script src="https://js.stripe.com/v3/"></script>
+        <script src="{% static 'purchase/item.js' %}"></script>
+        <style>
+            h2, h5 {
+             text-indent: 10px;
+            }
+           </style>
+    </head>
+    <body data-stripe-pk = {{stripepk}}>
+
+    <!-- Все Items -->
+    <div id="all_items_view">
+        <h2>Items</h2>
+        <h5>Добавьте товары к заказу или оплатите по ссылке</h5>
+        <table>
+            {% for item in items %}
+            <tr style="border-top: 12px solid transparent; border-bottom: 12px solid transparent;">
+                <td style="border-right: 20px solid transparent;"></td>
+                <td>
+                    <input class="bs btn btn-sm btn-outline-secondary qntchanger" type = "submit" value="+" style="width: 3vw;">
+                    <input class="bs btn btn-sm btn-outline-secondary qntchanger" type = "submit" value="-" style="width: 3vw;">
+                </td>
+                <td>
+                    <label class="counter">{{item.counter}}</label>
+                </td>
+                <td style="border-right: 20px solid transparent;"></td>
+                <td>
+                    <a class='openitem' data-item-id={{item.id}} data-type="item" href = '#'>
+                    <h4>{{item.name}}</h4><h6>{{item.price}} руб.</h6>
+                    </a>                
+                </td>
+                <td style="border-right: 20px solid transparent;"></td>
+                <td><h6>{{item.description}}</h6></td>
+                <td style="border-right: 60px solid transparent;"></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <hr>
+        <h2>Order</h2>
+        <h5 id="fdescription">{{order.fdescription}}</h5>
+        <h5 id="orderid">cумма заказа: 
+            <span id="fprice">{{order.fprice}}</span><span>&nbspрублей</span> 
+            <input data-item-id={{order.id}} data-type="order" class="bs btn btn-sm btn-outline-secondary" id = "openorder" type = "submit" value="оплата заказа" style="width: 14vw;">
+        </h5>
+
+    </div> 
+
+    <!-- Покупаем -->
+    <div id="purchase_view">
+        <h2 id="name">Name</h2>
+        <table>
+            <tr style="border-top: 12px solid transparent; border-bottom: 12px solid transparent;">
+                <td style="border-right: 60px solid transparent;"></td>
+                <td>
+                    <p id="description">description</p>
+                    <button id="checkout-button" data-item-id='#' data-type='#'>Buy</button>          
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    </body>
+</html>
+
+
+
